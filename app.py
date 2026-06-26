@@ -4,13 +4,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import koreanize_matplotlib
 
+
 # 페이지 제목 설정
 st.set_page_config(page_title="부하구분 대시보드", layout="wide")
 st.title("📊 지역 및 계절별 부하구분명 빈도 분석")
 
 # [주의] 가상의 df 데이터 로드 예시 (실제 데이터 로드 코드로 대체하세요)
 # df = pd.read_csv('your_data.csv') 
-
+df = pd.read_csv('Electronic Car.csv')
 # 1. 데이터 가공
 combined_counts = df.groupby(['지역구분명', '계절구분명', '부하구분명']).size().reset_index(name='빈도수')
 
