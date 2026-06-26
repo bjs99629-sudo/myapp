@@ -4,14 +4,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import koreanize_matplotlib
 
-
 # 페이지 제목 설정
 st.set_page_config(page_title="부하구분 대시보드", layout="wide")
 st.title("📊 지역 및 계절별 부하구분명 빈도 분석")
 
-# [주의] 가상의 df 데이터 로드 예시 (실제 데이터 로드 코드로 대체하세요)
-# df = pd.read_csv('your_data.csv') 
-df = pd.read_csv('Electronic Car.csv')
+# [수정] 깨진 줄(bad lines)은 건너뛰고 안전하게 데이터를 읽어오도록 설정
+# 파일 내부 인코딩 종류에 따라 깨질 수 있으므로 encoding='utf-8-sig'도 추가했습니다.
+try:
+    df = pd.read_csv('Electronic Car.csv', on_bad_lines='skip', encoding='utf-8-sig')
+except UnicodeDecodeError:
+    # 만약 utf-8로 읽다가 에러가 나면 윈도우 기본 인코딩(cp949)으로 재시도합니다.
+    df = pd.read_csv('Electronic Car.csv', on_bad_lines='skip', encoding='cp949')
+
 # 1. 데이터 가공
 combined_counts = df.groupby(['지역구분명', '계절구분명', '부하구분명']).size().reset_index(name='빈도수')
 
