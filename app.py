@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import koreanize_matplotlib
 
-st.markdown(""⚡"전기차 충전 부하란?⚡
+st.markdown("""⚡"전기차 충전 부하란?⚡
 '전기차 충전 부하'는 전기차를 충전할 때 전기 시스템에 가해지는 전기 사용량을 의미합니다. 마치 가정에서 여러 가전제품을 동시에 사용하면 전기가 많이 소모되는 것과 같은 원리입니다.
 
 이 부하는 여러 요인에 따라 달라지는데, 예를 들면 다음과 같습니다:
