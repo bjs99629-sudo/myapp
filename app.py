@@ -16,6 +16,13 @@ except UnicodeDecodeError:
     # 만약 utf-8로 읽다가 에러가 나면 윈도우 기본 인코딩(cp949)으로 재시도합니다.
     df = pd.read_csv('Electronic Car.csv', on_bad_lines='skip', encoding='cp949')
 
+
+    # Load the dataset with 'euc-kr' encoding
+    df = pd.read_csv('Electronic Car.csv', encoding='euc-kr')
+    
+    # Display the first 5 rows of the DataFrame    
+    display(df.head())
+
 # 1. 데이터 가공
 combined_counts = df.groupby(['지역구분명', '계절구분명', '부하구분명']).size().reset_index(name='빈도수')
 
