@@ -4,3 +4,4 @@ matplotlib
 seaborn
 koreanize_matplotlib
 plotly
+streamlit-gsheets
