@@ -183,26 +183,10 @@ with st.sidebar:
     st.markdown("---")
     
     if conn_configured:
-        st.success("🟢 Google Sheets DB 연동 완료")
-        # secrets에 있는 스프레드시트 URL을 관리자 탭에서 볼 수 있으나 사이드바에도 알림 제공
+        st.success("🟢 Google Sheets 연동 완료")
     else:
-        st.info("🟡 Local DB 모드 작동 중")
-        st.markdown("""
-        **[스프레드시트 연동 방법]**
-        1. Google Cloud에서 서비스 계정 생성 및 키 다운로드 (JSON).
-        2. 스프레드시트 생성 후 서비스 계정 이메일을 편집자로 초대.
-        3. `.streamlit/secrets.toml`에 아래 설정 추가:
-        ```toml
-        [connections.gsheets]
-        spreadsheet = "구글 시트 URL"
-        type = "service_account"
-        project_id = "..."
-        private_key_id = "..."
-        private_key = "..."
-        client_email = "..."
-        ...
-        ```
-        """)
+        st.info("🟡 로컬 파일 모드 작동 중")
+        
     st.markdown("---")
     st.caption("v1.0.0 | Created by Antigravity")
 
@@ -231,7 +215,16 @@ with tab1:
             # 날짜 및 시간 입력 (기본값: 현재 시간)
             now = datetime.datetime.now()
             selected_date = st.date_input("📅 날짜 선택", value=now.date())
-            selected_time = st.time_input("⏰ 시간 선택", value=now.time())
+            
+            # 시간 선택 (직관적인 드롭다운 선택 및 직접 검색 가능)
+            st.markdown("<div style='margin-top: 10px; margin-bottom: 5px;'><label style='font-size: 0.9rem; color: #E0E0E6;'>⏰ 시간 선택 (시 / 분)</label></div>", unsafe_allow_html=True)
+            t_col1, t_col2 = st.columns(2)
+            with t_col1:
+                hours_options = [f"{i:02d}" for i in range(24)]
+                selected_hour = st.selectbox("시", options=hours_options, index=now.hour, label_visibility="collapsed")
+            with t_col2:
+                minutes_options = [f"{i:02d}" for i in range(60)]
+                selected_minute = st.selectbox("분", options=minutes_options, index=now.minute, label_visibility="collapsed")
             
             notes = st.text_input("💬 비고 (사유 및 특이사항)", placeholder="지각 사유 등 남기실 말씀이 있다면 작성하세요")
             
@@ -242,7 +235,7 @@ with tab1:
                     st.error("이름을 입력해주세요.")
                 else:
                     date_str = selected_date.strftime("%Y-%m-%d")
-                    time_str = selected_time.strftime("%H:%M:%S")
+                    time_str = f"{selected_hour}:{selected_minute}:00"
                     
                     # 중복 출석 방지
                     if is_already_checked_in(date_str, name):
@@ -252,7 +245,8 @@ with tab1:
                         cutoff_h, cutoff_m = map(int, st.session_state.cutoff_time.split(":"))
                         cutoff_datetime = datetime.time(cutoff_h, cutoff_m)
                         
-                        if selected_time <= cutoff_datetime:
+                        selected_time_obj = datetime.time(int(selected_hour), int(selected_minute))
+                        if selected_time_obj <= cutoff_datetime:
                             status = "출석"
                         else:
                             status = "지각"
@@ -479,4 +473,3 @@ with tab3:
             st.error("❌ 비밀번호가 올바르지 않습니다.")
         else:
             st.caption("비밀번호를 입력하여 관리자 메뉴를 활성화하세요.")
-
