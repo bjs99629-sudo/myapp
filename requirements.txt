@@ -1,7 +1,7 @@
 streamlit
+streamlit-project-gsheets
 pandas
 matplotlib
 seaborn
 koreanize_matplotlib
 plotly
-streamlit-gsheets
