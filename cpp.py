@@ -181,7 +181,7 @@ def is_already_checked_in(date_str, name):
 # 3. 사이드바 - 실시간 출석 현황 모니터링
 # ----------------------------------------------------
 with st.sidebar:
-    st.image("https://img.icons8.com/clouds/200/checked-laptop.png", width=120)
+    
     st.markdown("### 📅 스마트 출석체크")
     st.markdown("---")
     
