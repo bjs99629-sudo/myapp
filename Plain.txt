@@ -1,1 +1,6 @@
-
+streamlit
+streamlit-gsheets
+pandas
+matplotlib
+seaborn
+koreanize-matplotlib
